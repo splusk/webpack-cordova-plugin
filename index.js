@@ -108,8 +108,8 @@ WebpackCordovaPlugin.prototype.apply  = function(compiler){
     if(iosCFBundleVersion !== null) {
       try {
         replace({
-          regex: /ios-CFBundleVersion=\"([0-9])\"/,
-          replacement: "ios-CFBundleVersion=\""+iosCFBundleVersion+"\"",
+          regex: /ios-CFBundleVersion=\"([0-9]+\.?){1,3}\"/,
+          replacement: "ios-CFBundleVersion="+iosCFBundleVersion,
           paths: [config],
           silent: true
         });
