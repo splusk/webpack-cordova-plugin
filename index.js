@@ -18,6 +18,7 @@ WebpackCordovaPlugin.prototype.apply  = function(compiler){
       .string('platform')
       .string('cordova-config')
       .string('cordova-version')
+      .string('cordova-iosCFBundleVersion')
       .argv;
 
 
@@ -29,6 +30,7 @@ WebpackCordovaPlugin.prototype.apply  = function(compiler){
     var config = path.join(cwd,argv['cordova-config'] || this.options.config || "config.xml");
     var platform = argv['platform'] || this.options.platform;
     var version = argv['cordova-version'] || this.options.version;
+    var iosCFBundleVersion = argv['cordova-version'] || this.options.iosCFBundleVersion;
 
     /**
      * Modify webpack config (cordova.js is external, load as script)
@@ -92,6 +94,22 @@ WebpackCordovaPlugin.prototype.apply  = function(compiler){
         replace({
           regex: /version=\"([0-9]+\.?){1,3}\"/,
           replacement: "version=\""+version+"\"",
+          paths: [config],
+          silent: true
+        });
+      } catch(err) {
+        console.error('ERROR webpack-cordova-plugin: Could not replace version in: '+config,err.code);
+      }
+    }
+  
+    /**
+     * Replace config.xml ios-CFBundleVersion (if specified)
+     */
+    if(iosCFBundleVersion !== null) {
+      try {
+        replace({
+          regex: /ios-CFBundleVersion=\"([0-9])\"/,
+          replacement: "ios-CFBundleVersion=\""+iosCFBundleVersion+"\"",
           paths: [config],
           silent: true
         });
