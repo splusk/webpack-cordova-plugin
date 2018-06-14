@@ -30,7 +30,7 @@ WebpackCordovaPlugin.prototype.apply  = function(compiler){
     var config = path.join(cwd,argv['cordova-config'] || this.options.config || "config.xml");
     var platform = argv['platform'] || this.options.platform;
     var version = argv['cordova-version'] || this.options.version;
-    var iosCFBundleVersion = argv['cordova-version'] || this.options.iosCFBundleVersion;
+    var iosCFBundleVersion = argv['cordova-iosCFBundleVersion'] || this.options.iosCFBundleVersion;
 
     /**
      * Modify webpack config (cordova.js is external, load as script)
